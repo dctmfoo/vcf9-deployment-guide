@@ -1,71 +1,76 @@
 ---
 title: Executive Summary
-description: High-level overview of VCF 9.0 deployment and migration from VCF 4.5
+description: High-level overview of VCF 9.0 deployment and migration paths
 ---
 
-This document consolidates key information for deploying VMware Cloud Foundation 9.0 within an existing VMware environment. VCF 9.0, released June 17, 2025, introduces significant architectural changes including unified versioning (all components at 9.x), a new Fleet management hierarchy, and mandatory deployment of VCF Operations and VCF Automation.
+This guide provides comprehensive information for deploying VMware Cloud Foundation 9.0 within existing VMware environments. VCF 9.0, released June 17, 2025, introduces significant architectural changes including unified versioning (all components at 9.x), a new Fleet management hierarchy, and mandatory deployment of VCF Operations and VCF Automation.
 
-## Critical Migration Notes (4.5 → 9.0)
+## What's New in VCF 9.0
 
-:::caution[No Direct Upgrade]
+VCF 9.0 represents a major evolution of the platform with consolidated component versioning and a unified operations experience:
+
+| Aspect | Details |
+|--------|---------|
+| **Release Date** | June 17, 2025 |
+| **Unified Versioning** | All components now at 9.x (vSphere, NSX, vSAN, SDDC Manager) |
+| **New Architecture** | Three-layer hierarchy: Private Cloud → Fleet → Instance |
+| **Operations Console** | VCF Operations replaces SDDC Manager UI for day-2 operations |
+| **Mandatory Components** | VCF Operations and VCF Automation now required |
+
+## Critical Migration Notes
+
+:::caution[No Direct Upgrade from 4.5]
 Direct upgrade from VCF 4.5 to 9.0 is **NOT** supported. Required path: **VCF 4.5 → VCF 5.2 → VCF 9.0**
 :::
+
+### Key Changes from Previous Versions
 
 | Change | Impact |
 |--------|--------|
 | SDDC Manager UI | Deprecated (use VCF Operations console) |
 | VCF Operations & Automation | Now **mandatory** components |
 | Cloud Builder | Replaced by VCF Installer appliance |
+| Excel Deployment Workbook | Replaced by JSON specification or UI wizard |
 | Identity Management | vIDM replaced by VCF Identity Broker |
 | Licensing | Single license file, subscription-based only |
 
-## Project Scope
+## Deployment Overview
 
-### Objectives
-- Integrate VCF 9 into current VMware stack with minimal disruption
-- Deploy the VCF 9 Management Domain
-- Prepare for future Workload Domains
-- Enhance operational consistency through automated lifecycle management
+A typical VCF 9 deployment involves the following phases:
 
-### In-Scope Activities
+### 1. Assessment & Planning
+- Review existing vSphere, vSAN, and NSX infrastructure for VCF 9 readiness
+- Validate hardware compatibility against [Dell PowerEdge requirements](/hardware/dell-servers/) or VMware HCL
+- Verify [network prerequisites](/requirements/network/) and [DNS/NTP configuration](/requirements/dns-ntp-certs/)
+- Confirm [licensing requirements](/requirements/licensing/)
 
-1. **Assessment & Planning**
-   - Review existing vSphere, vSAN, and NSX infrastructure for VCF 9 readiness
-   - Validate hardware compatibility, network configuration, and licensing requirements
-   - Document existing architecture and identify gaps
+### 2. Environment Preparation
+- Prepare ESXi hosts (firmware, BIOS settings, networking, vSAN configuration)
+- Configure prerequisite VLANs and IP schemas
+- Deploy and validate VCF 9 imaging/bring-up bundles
 
-2. **Environment Preparation**
-   - Prepare ESXi hosts (firmware, BIOS settings, networking, vSAN configuration)
-   - Configure prerequisite VLANs, IP schemas, DNS, and NTP services
-   - Deploy and validate VCF 9 imaging/bring-up bundles
+### 3. Management Domain Deployment
+- Deploy the [VCF 9 Management Domain](/deployment/management-domain/) using VCF Installer
+- Configure vCenter Server, SDDC Manager, and vSAN
+- Perform post-deployment validation
 
-3. **VCF 9 Deployment**
-   - Deploy the VCF 9 Management Domain
-   - Configure vCenter Server, SDDC Manager, and vSAN
-   - Perform post-deployment validation
+### 4. Integration & Configuration
+- Configure [identity integration](/integration/identity/) with enterprise IdP
+- Set up [backup solutions](/integration/backup/)
+- Configure [lifecycle management](/integration/lifecycle/)
+- Implement [RBAC and security best practices](/integration/rbac-security/)
 
-4. **Integration & Configuration**
-   - Integrate existing VMware resources (identity sources, backup, monitoring)
-   - Configure lifecycle management and workload domain templates
-   - Implement RBAC and security best practices
+### 5. Workload Domain Expansion
+- Plan and deploy [Workload Domains](/deployment/workload-domains/) as needed
+- Configure domain-specific networking and storage
 
-5. **Knowledge Transfer**
-   - Operational handoff documentation
-   - Knowledge-transfer sessions covering SDDC Manager → VCF Operations transition
+## Quick Links
 
-### Out-of-Scope
-- Deployment of additional Workload Domains (unless explicitly added)
-- Migration of existing workloads into VCF 9
-- Non-VMware infrastructure work
-- Application-level changes not directly related to VCF 9
-
-## Deliverables
-
-- [ ] VCF 9 architecture design documentation
-- [ ] Validated VCF 9 Management Domain deployed and operational
-- [ ] Configuration documentation and as-built runbook
-- [ ] Knowledge transfer sessions
+- [Architecture Overview](/overview/architecture/) - Component versions and BOM
+- [Version Evolution](/overview/version-evolution/) - Changes from 4.5 → 5.2 → 9.0
+- [Migration Gotchas](/migration/gotchas/) - Known issues and workarounds
+- [SDDC Manager Changes](/migration/sddc-manager/) - Feature migration map
 
 ---
 
-*Prepared for Shyam | February 2026*
+*Last Updated: February 2026*
