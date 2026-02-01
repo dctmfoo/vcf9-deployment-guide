@@ -14,36 +14,106 @@ hero:
       icon: external
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
+import { Card, CardGrid, Steps } from '@astrojs/starlight/components';
+
+## About This Guide
+
+This guide was created to support **VMware Cloud Foundation 9.0 deployment projects** within existing VMware environments. It covers the complete lifecycle from assessment through operational handoff, specifically addressing the significant changes introduced in VCF 9.0.
+
+:::note[Migration Context]
+If you're migrating from **VCF 4.5**, be aware that direct upgrade to 9.0 is not supported. The required path is **4.5 → 5.2 → 9.0**. This guide addresses the nuances of this migration, including deprecated components and functionality shifts.
+:::
+
+## Project Scope Coverage
+
+This documentation supports the following deployment phases:
+
+<Steps>
+1. **Assessment & Planning**
+   
+   Review existing vSphere, vSAN, and NSX infrastructure for VCF 9 readiness. Validate hardware compatibility, network configuration, and licensing requirements.
+
+2. **Environment Preparation**
+   
+   Prepare ESXi hosts (firmware, BIOS, networking, vSAN). Configure prerequisite VLANs, IP schemas, DNS, and NTP services.
+
+3. **VCF 9 Deployment**
+   
+   Deploy the Management Domain using VCF Installer. Configure vCenter, SDDC Manager, and vSAN with post-deployment validation.
+
+4. **Integration & Configuration**
+   
+   Integrate identity sources, backup solutions, and monitoring. Configure lifecycle management and implement RBAC security best practices.
+
+5. **Knowledge Transfer**
+   
+   Operational handoff documentation covering the critical SDDC Manager → VCF Operations transition.
+</Steps>
+
+## Critical Changes in VCF 9.0
+
+| Component | What Changed | Impact |
+|-----------|--------------|--------|
+| **SDDC Manager** | UI deprecated | Use VCF Operations console for day-2 operations |
+| **Cloud Builder** | Replaced | VCF Installer appliance with JSON/wizard-based deployment |
+| **VCF Operations** | Now mandatory | Replaces Aria Operations, handles lifecycle management |
+| **VCF Automation** | Now mandatory | Replaces Aria Automation |
+| **Identity** | vIDM replaced | VCF Identity Broker for unified SSO |
+| **Versioning** | Unified | All components at 9.x (vSphere, NSX, vSAN, SDDC Manager) |
 
 ## Quick Navigation
 
 <CardGrid stagger>
   <Card title="Executive Summary" icon="document">
-    High-level overview of VCF 9.0 deployment requirements and migration path from 4.5 → 5.2 → 9.0
+    High-level overview of VCF 9.0 and what's new in this release
+    
     [Read more →](/overview/summary/)
   </Card>
-  <Card title="Architecture" icon="setting">
-    New Fleet hierarchy, component versions (BOM), and key changes from previous versions
+  <Card title="Architecture & BOM" icon="setting">
+    Fleet hierarchy, component versions, and architectural changes
+    
     [Read more →](/overview/architecture/)
   </Card>
   <Card title="Requirements" icon="list-format">
-    vSphere, vSAN, NSX, network, DNS/NTP, and licensing requirements
+    vSphere, vSAN, NSX, network, DNS/NTP, and licensing prerequisites
+    
     [Read more →](/requirements/vsphere/)
   </Card>
   <Card title="Dell Hardware" icon="laptop">
-    Certified PowerEdge servers, BIOS settings, firmware versions, and driver information
+    Certified PowerEdge servers, BIOS settings, firmware, and drivers
+    
     [Read more →](/hardware/dell-servers/)
+  </Card>
+  <Card title="Migration Guide" icon="rocket">
+    SDDC Manager changes, upgrade path, and known gotchas
+    
+    [Read more →](/migration/sddc-manager/)
+  </Card>
+  <Card title="Integration" icon="puzzle">
+    Identity, backup, lifecycle management, and security configuration
+    
+    [Read more →](/integration/identity/)
   </Card>
 </CardGrid>
 
-## Key Information
+## Version Information
 
 | Aspect | Details |
 |--------|---------|
 | **VCF Version** | 9.0.0.0 (Released June 17, 2025) |
 | **Upgrade Path** | 4.5 → 5.2 → 9.0 (no direct 4.5 → 9.0) |
-| **Key Change** | SDDC Manager UI deprecated → Use VCF Operations |
-| **Mandatory Components** | VCF Operations, VCF Automation, Fleet Management |
+| **vSphere** | 9.0.0.0 (ESXi Build 24755229) |
+| **NSX** | 9.0.0.0 (Build 24733065) |
+| **vCenter** | 9.0.0.0 (Build 24755230) |
 | **Dell Hardware** | 16th/17th Gen PowerEdge (R760, R660, R670, R7625) |
-| **Last Updated** | February 2026 |
+
+## Key Resources
+
+- [VCF 9.0 Release Notes](https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-0/release-notes/vmware-cloud-foundation-90-release-notes.html)
+- [VCF 9.0 Bill of Materials](https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-0/release-notes/vmware-cloud-foundation-90-release-notes/vmware-cloud-foundation-bill-of-materials.html)
+- [Broadcom Compatibility Guide](https://compatibilityguide.broadcom.com)
+- [Dell vSAN Firmware Catalog (ESXi 9.x)](https://www.dell.com/support/kbdoc/en-us/000337386)
+
+---
+
+*Last Updated: February 2026*
