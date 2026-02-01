@@ -7,7 +7,7 @@ export default defineConfig({
       title: 'VCF 9 Deployment Guide',
       description: 'Comprehensive guide for VMware Cloud Foundation 9.0 deployment',
       social: {
-        github: 'https://github.com/vmware/vcf-security-and-compliance-guidelines',
+        github: 'https://github.com/dctmfoo/vcf9-deployment-guide',
       },
       customCss: [
         './src/styles/custom.css',
